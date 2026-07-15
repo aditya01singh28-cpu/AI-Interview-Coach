@@ -32,3 +32,9 @@ def about():
         "backend": "FastAPI",
         "language": "Python"
     }
+
+@app.get("/greet/{name}")
+def greet(name: str):
+    return{
+        "message": f"Hello {name}! Welcome to Project Athena 🚀"
+    }
