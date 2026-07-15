@@ -14,6 +14,8 @@ def home():
         "status": "Server Running",
         "developer": "Aditya Singh"
     }
+#Empty list to store candidate data
+candidates = []
 
 
 @app.get("/health")
@@ -49,8 +51,15 @@ class Candidate(BaseModel):
 
 @app.post("/candidate")
 def create_candidate(candidate: Candidate):
+
+    candidates.append(candidate)
+
     return {
-        "message": f"Welcome {candidate.name}!",
-        "role": candidate.role,
-        "experience": candidate.experience
+        "message": "Candidate added successfully!",
+        "total_candidates": len(candidates)
     }
+
+
+@app.get("/candidates")
+def get_candidates():
+    return candidates
