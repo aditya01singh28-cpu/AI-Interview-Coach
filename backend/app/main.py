@@ -38,3 +38,19 @@ def greet(name: str):
     return{
         "message": f"Hello {name}! Welcome to Project Athena 🚀"
     }
+from pydantic import BaseModel
+
+
+class Candidate(BaseModel):
+    name: str
+    role: str
+    experience: str
+
+
+@app.post("/candidate")
+def create_candidate(candidate: Candidate):
+    return {
+        "message": f"Welcome {candidate.name}!",
+        "role": candidate.role,
+        "experience": candidate.experience
+    }
