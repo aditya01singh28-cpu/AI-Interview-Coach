@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from pydantic import BaseModel
 
 app = FastAPI(
     title="Project Athena API",
@@ -40,8 +41,6 @@ def greet(name: str):
     return{
         "message": f"Hello {name}! Welcome to Project Athena 🚀"
     }
-from pydantic import BaseModel
-
 
 class Candidate(BaseModel):
     name: str
@@ -63,3 +62,23 @@ def create_candidate(candidate: Candidate):
 @app.get("/candidates")
 def get_candidates():
     return candidates
+
+@app.put("/candidate/{name}")
+def update_candidate(name: str, updated_candidate: Candidate):
+
+    for candidate in candidates:
+
+        if candidate.name.lower() == name.lower():
+
+            candidate.name = updated_candidate.name
+            candidate.role = updated_candidate.role
+            candidate.experience = updated_candidate.experience
+
+            return {
+                "message": "Candidate updated successfully!",
+                "candidate": candidate
+            }
+
+    return {
+        "error": "Candidate not found"
+    }
